@@ -23,8 +23,8 @@ const AllTodos = () => {
 
   console.log(allTodos);
   return (
-    <div>
-      {allTodos.length &&
+    <div className="flex flex-col gap-3 w-full">
+      {allTodos.length > 0 &&
         allTodos.map((todo) => (
           <Todo
             key={todo._id}

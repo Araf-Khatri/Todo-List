@@ -1,33 +1,54 @@
 import { memo } from "react";
 
 const Todo = ({ data, todoCompleteHandler, todoDeleteHandler, completed }) => {
-  console.log(data);
+  console.log(data.completed);
+
+  const buttonClasses = "text-sm bg-white px-3 py-1 rounded-full border";
 
   return (
-    <div>
+    <div className="flex justify-between items-center p-4 bg-slate-700">
       {/* flex padd*/}
-      <div>
+      <div className="flex flex-col">
         {/* flex flex-col padd*/}
-        <p className={`${completed ? "completed " : ""}`}>{data.name}</p>
-        <p className={`${completed ? "completed " : ""}`}>{data.description}</p>
-      </div>
-      <div className="buttons">
-        <button
-          onClick={() =>
-            todoCompleteHandler(
-              {
-                completed: true,
-              },
-              data._id
-            )
+        <p
+          className={
+            `${completed ? "line-through " : ""}
+            font-bold text-2xl text-yellow-500`
           }
         >
-          Completed
+          {data.name}
+        </p>
+        <p className={`${completed ? "line-through " : ""}` + "text-sm"}>
+          {data.description}
+        </p>
+      </div>
+      <div className="flex gap-3">
+        {!completed && (
+          <button className={`${buttonClasses} text-green-500 border-green-500`}
+            onClick={() =>
+              todoCompleteHandler(
+                {
+                  completed: true,
+                },
+                data._id
+              )
+            }
+          >
+            Completed
+          </button>
+        )}
+        <button
+          onClick={() => todoDeleteHandler(data._id)}
+          className={`${buttonClasses} text-red-500 border-red-500`}
+        >
+          Delete
         </button>
-        <button onClick={() => todoDeleteHandler(data._id)}>Delete</button>
       </div>
     </div>
   );
 };
 
-export default memo(Todo, (prev, curr) => prev !== curr);
+export default memo(Todo, (prev, curr) => {
+  console.log(prev, curr);
+  return prev === curr;
+});

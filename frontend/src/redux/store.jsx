@@ -14,6 +14,7 @@ const reducer = (state = initialState, actions) => {
     case "UPDATE_TODO":
       return state.map((todo) => {
         if (todo._id === actions.id) {
+          console.log(actions.payload)
           return actions.payload;
         }
         return todo;
