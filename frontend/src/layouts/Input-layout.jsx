@@ -36,7 +36,7 @@ const InputLayout = () => {
               />
             </div>
           </div>
-          <button className="p-2 px-4 rounded-full bg-yellow-600" type="button" onClick={() => createTodoHandler()}>
+          <button className="p-2 px-5 rounded-full bg-yellow-600" type="button" onClick={() => createTodoHandler()}>
             Add Todo
           </button>
         </div>

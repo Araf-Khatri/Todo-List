@@ -12,13 +12,13 @@ const Todo = ({ data, todoCompleteHandler, todoDeleteHandler, completed }) => {
         {/* flex flex-col padd*/}
         <p
           className={
-            `${completed ? "line-through " : ""}
-            font-bold text-2xl text-yellow-500`
+            `${completed ? "line-through text-slate-400" : "text-yellow-500 "}
+            font-bold text-2xl` 
           }
         >
           {data.name}
         </p>
-        <p className={`${completed ? "line-through " : ""}` + "text-sm"}>
+        <p className={`${completed ? "line-through text-slate-400" : ""} text-sm`}>
           {data.description}
         </p>
       </div>

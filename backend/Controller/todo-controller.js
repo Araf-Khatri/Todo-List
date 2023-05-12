@@ -80,7 +80,7 @@ exports.updateTodo = async (req, res) => {
     let todo = await Todo.findByIdAndUpdate(id, req.body, {
       runValidators: true,
       new: true,
-    });
+    }).select('-__v');
 
     if (!todo) {
       throw new Error("Invalid Todo ID");
