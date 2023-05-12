@@ -1,5 +1,25 @@
 const Todo = require("../Model/todo-model");
 
+exports.createTodo = async (req, res) => {
+  try {
+    const todo = await Todo.create(req.body);
+    res.status(201).json({
+      status: "success",
+      data: {
+        _id: todo._id,
+        name: todo.name,
+        description: todo.description,
+        completed: todo.completed,
+      },
+    });
+  } catch (err) {
+    res.status(406).json({
+      status: "failed",
+      message: err.message,
+    });
+  }
+};
+
 exports.getAllTodos = async (req, res) => {
   try {
     const todos = await Todo.find().select("-__v");
@@ -35,34 +55,14 @@ exports.getOneTodo = async (req, res) => {
   }
 };
 
-exports.createTodo = async (req, res) => {
-  try {
-    const todo = await Todo.create(req.body);
-    res.status(201).json({
-      status: "success",
-      data: {
-        heading: todo.heading,
-        description: todo.description,
-        completed: todo.completed,
-      },
-    });
-  } catch (err) {
-    res.status(406).json({
-      status: "failed",
-      message: err.message,
-    });
-  }
-};
-
 exports.deleteTodo = async (req, res) => {
   try {
     const { id } = req.params;
-    const todo = await Todo.findByIdAndDelete(id);
-    if (!todo) {
-      throw new Error();
-    }
+    await Todo.findByIdAndDelete(id);
+
     res.status(204).json({
       status: "success",
+      id,
     });
   } catch (err) {
     if (err.name === "CastError") {
