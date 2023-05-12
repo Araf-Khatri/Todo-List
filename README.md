@@ -1,7 +1,5 @@
 ## TODO-List
 
-Not Well designed. Please have patience
-
 Backend
 ```
 cd backend
