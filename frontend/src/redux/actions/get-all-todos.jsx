@@ -1,5 +1,5 @@
 const getAllTodos = () => async (dispatch) => {
-  const response = await fetch("http://127.0.0.1:8080/api/todo", {
+  const response = await fetch(`${import.meta.env.VITE_TODO_LIST_API}api/todo`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

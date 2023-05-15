@@ -1,5 +1,7 @@
+console.log(import.meta.env.VITE_TODO_LIST_API)
 const addNewTodo = (todoObj) => async (dispatch) => {
-  const response = await fetch("http://127.0.0.1:8080/api/todo", {
+  // process.env.REACT_APP_TODO_LIST_API
+  const response = await fetch(`${import.meta.env.VITE_TODO_LIST_API}api/todo`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
