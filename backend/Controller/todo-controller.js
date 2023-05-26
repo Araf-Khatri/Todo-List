@@ -1,8 +1,12 @@
+const jwt = require("jsonwebtoken");
 const Todo = require("../Model/todo-model");
 
 exports.createTodo = async (req, res) => {
   try {
-    const todo = await Todo.create(req.body);
+    const { userId } = req.userData;
+
+    const todo = await Todo.create({ ...req.body, userId });
+
     res.status(201).json({
       status: "success",
       data: {
@@ -22,7 +26,11 @@ exports.createTodo = async (req, res) => {
 
 exports.getAllTodos = async (req, res) => {
   try {
-    const todos = await Todo.find().select("-__v");
+    const { userId } = req.userData;
+
+    const todos = await Todo.find({ userId });
+    // console.log(todos);
+
     res.status(200).json({
       status: "success",
       length: todos.length,
@@ -38,8 +46,10 @@ exports.getAllTodos = async (req, res) => {
 
 exports.getOneTodo = async (req, res) => {
   try {
+    const { userId } = req.userData;
+
     const { id } = req.params;
-    const todo = await Todo.findById(id).select("-__v");
+    const todo = await Todo.find({ _id: id, userId }).select("-__v -userId");
 
     res.status(200).json({
       status: "success",
@@ -49,7 +59,7 @@ exports.getOneTodo = async (req, res) => {
     if (err.name === "CastError") {
       res.status(404).json({
         status: "Failed",
-        message: "No Todo Found with this ID: " + req.params.id,
+        message: "You got no Todo with ID: " + req.params.id,
       });
     }
   }
@@ -57,8 +67,10 @@ exports.getOneTodo = async (req, res) => {
 
 exports.deleteTodo = async (req, res) => {
   try {
+    const { userId } = req.userData;
+
     const { id } = req.params;
-    await Todo.findByIdAndDelete(id);
+    await Todo.findOneAndDelete({ _id: id, userId });
 
     res.status(204).json({
       status: "success",
@@ -80,7 +92,7 @@ exports.updateTodo = async (req, res) => {
     let todo = await Todo.findByIdAndUpdate(id, req.body, {
       runValidators: true,
       new: true,
-    }).select('-__v');
+    }).select("-__v");
 
     if (!todo) {
       throw new Error("Invalid Todo ID");
