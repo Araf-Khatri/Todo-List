@@ -67,7 +67,7 @@ const Login: FC = () => {
 
   return (
     <form onSubmit={loginHandler} className="w-full bg-slate-700 px-6 py-10">
-      {isLoading && <p>LOADING....</p>}
+      {isLoading && <p>LOADING...</p>}
       {error.error && (
         <p className="text-center bg-red-400 text-gray-900">
           {error.errorText}

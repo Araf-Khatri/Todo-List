@@ -1,4 +1,4 @@
-import { FC, FormEvent, SetStateAction, useRef, useState } from "react";
+import { FC, FormEvent, useRef, useState } from "react";
 import Input from "./input";
 import Button from "./button";
 import { useCookies } from "react-cookie";
@@ -71,6 +71,7 @@ const Signup: FC = () => {
 
   return (
     <form onSubmit={signupHandler} className="w-full bg-slate-700 px-6 py-10">
+      {isLoading && <p>Loading...</p>}
       {error.error && (
         <p className="text-center bg-red-400 text-gray-900">
           {error.errorText}

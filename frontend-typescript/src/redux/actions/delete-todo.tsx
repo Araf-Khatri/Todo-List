@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 
 const deleteTodo =
   (id: string, token: string) => async (dispatch: Dispatch) => {
-    const response = await fetch(
+    await fetch(
       `${import.meta.env.VITE_TODO_LIST_API}api/todo/${id}`,
       {
         method: "DELETE",
