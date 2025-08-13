@@ -1,8 +1,8 @@
 import { FC, FormEvent, useRef, useState } from "react";
-import Button from "./button";
-import Input from "./input";
 import { useCookies } from "react-cookie";
 import useError from "../../hooks/use-error";
+import Button from "./button";
+import Input from "./input";
 
 type LoginCredentials = {
   username: string;
@@ -21,7 +21,7 @@ const Login: FC = () => {
   const fetchLoginToken = async (loginCred: LoginCredentials) => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_TODO_LIST_API}api/user/login`,
+        `${import.meta.env.VITE_TODO_LIST_API}/api/user/login`,
         {
           method: "POST",
           body: JSON.stringify(loginCred),

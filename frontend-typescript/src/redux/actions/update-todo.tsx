@@ -8,7 +8,7 @@ const updateTodo: (
 ) => (dispatch: Dispatch) => void =
   (newTodoData, id, token) => async (dispatch) => {
     const response = await fetch(
-      `${import.meta.env.VITE_TODO_LIST_API}api/todo/${id}`,
+      `${import.meta.env.VITE_TODO_LIST_API}/api/todo/${id}`,
       {
         method: "PATCH",
         headers: {

@@ -9,7 +9,7 @@ const addNewTodo: (
 ) => (dispatch: Dispatch<ActionsObj>) => void =
   (todoObj, token) => async (dispatch) => {
     const response = await fetch(
-      `${import.meta.env.VITE_TODO_LIST_API}api/todo`,
+      `${import.meta.env.VITE_TODO_LIST_API}/api/todo`,
       {
         method: "POST",
         headers: {

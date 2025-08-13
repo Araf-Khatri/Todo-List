@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 
 const getAllTodos = (token: string) => async (dispatch: Dispatch) => {
   const response = await fetch(
-    `${import.meta.env.VITE_TODO_LIST_API}api/todo`,
+    `${import.meta.env.VITE_TODO_LIST_API}/api/todo`,
     {
       method: "GET",
       headers: {
