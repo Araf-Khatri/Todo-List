@@ -1,13 +1,13 @@
 import { FC, useEffect } from "react";
-import { useSelector } from "react-redux";
-import getAllTodos from "../redux/actions/get-all-todos";
-import Todo from "../components/todo";
-import updateTodo from "../redux/actions/update-todo";
-import deleteTodo from "../redux/actions/delete-todo";
-import { TodoObj } from "../types/todo-obj";
-import { UpdateTodoObj } from "../types/action-function-type";
-import { useTypedDispatch } from "../redux/store";
 import { ReactCookieProps, withCookies } from "react-cookie";
+import { useSelector } from "react-redux";
+import Todo from "../components/todo";
+import deleteTodo from "../redux/actions/delete-todo";
+import getAllTodos from "../redux/actions/get-all-todos";
+import updateTodo from "../redux/actions/update-todo";
+import { useTypedDispatch } from "../redux/store";
+import { UpdateTodoObj } from "../types/action-function-type";
+import { TodoObj } from "../types/todo-obj";
 
 // const useAppDispatch: (arg?: unknown) => AppDispatch = useDispatch;
 const AllTodos: FC<ReactCookieProps> = ({ cookies }) => {
@@ -18,7 +18,11 @@ const AllTodos: FC<ReactCookieProps> = ({ cookies }) => {
 
   const dispatch = useTypedDispatch();
 
-  const todoCompleteHandler = (data: UpdateTodoObj, id: string) => {
+  useEffect(() => {
+    dispatch(getAllTodos(token));
+  }, [dispatch, token]);
+
+  const todoUpdateHandler = (data: UpdateTodoObj, id: string) => {
     dispatch(updateTodo(data, id, token));
   };
 
@@ -26,19 +30,17 @@ const AllTodos: FC<ReactCookieProps> = ({ cookies }) => {
     dispatch(deleteTodo(id, token));
   };
 
-  useEffect(() => {
-    dispatch(getAllTodos(token));
-  }, [dispatch, token]);
-
   return (
     <div className="flex flex-col gap-3 w-full">
-      <p className="text-3xl font-bold border-b-[1px] text-gray-400 border-b-gray-700">Your ToDo's</p>
+      <p className="text-3xl font-bold border-b-[1px] text-gray-400 border-b-gray-700">
+        Your ToDo's
+      </p>
       {allTodos.length > 0 &&
         allTodos.map((todo) => (
           <Todo
             key={todo._id}
             data={todo}
-            todoUpdateHandler={todoCompleteHandler}
+            todoUpdateHandler={todoUpdateHandler}
             todoDeleteHandler={todoDeleteHandler}
             completed={todo.completed}
           />

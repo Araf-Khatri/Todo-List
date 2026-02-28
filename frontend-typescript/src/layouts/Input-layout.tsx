@@ -1,10 +1,12 @@
 import { FC, useRef } from "react";
-import { useTypedDispatch } from "../redux/store";
-import addNewTodo from "../redux/actions/add-new-todo";
-import { FormTodo } from "../types/new-todo";
 import { ReactCookieProps, withCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
+import addNewTodo from "../redux/actions/add-new-todo";
+import { useTypedDispatch } from "../redux/store";
+import { FormTodo } from "../types/new-todo";
 
 const InputLayout: FC<ReactCookieProps> = ({ cookies }) => {
+  const navigate = useNavigate();
   const todoNameRef = useRef<HTMLInputElement | null>(null);
   const todoDescriptionRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -21,19 +23,20 @@ const InputLayout: FC<ReactCookieProps> = ({ cookies }) => {
     const name: string = todoNameRef.current?.value || "";
     const description: string = todoDescriptionRef.current?.value || "";
 
+    if (!name || !description) return;
     const formTodo: FormTodo = { name, description };
-    dispatch(addNewTodo(formTodo, token));
+    dispatch(addNewTodo(formTodo, token, navigate));
 
     (todoNameRef.current as HTMLInputElement).value = "";
     (todoDescriptionRef.current as HTMLTextAreaElement).value = "";
   };
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 w-full">
       <p className="text-3xl font-bold border-b-[1px] text-gray-400 border-b-gray-700">
         Add Todo
       </p>
-      <form>
+      <form className="w-full max-w-xl self-center">
         <div className="flex flex-col gap-10 items-center h-fit px-6 py-8 bg-slate-700">
           <div className="flex flex-col gap-3 w-full">
             <div className={formLabelInputClasses}>
