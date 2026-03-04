@@ -1,6 +1,7 @@
-import { FC, useRef } from "react";
+import { FC, useRef, useState } from "react";
 import { ReactCookieProps, withCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../components/Spinner";
 import addNewTodo from "../redux/actions/add-new-todo";
 import { useTypedDispatch } from "../redux/store";
 import { FormTodo } from "../types/new-todo";
@@ -9,6 +10,7 @@ const InputLayout: FC<ReactCookieProps> = ({ cookies }) => {
   const navigate = useNavigate();
   const todoNameRef = useRef<HTMLInputElement | null>(null);
   const todoDescriptionRef = useRef<HTMLTextAreaElement | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useTypedDispatch();
 
@@ -19,13 +21,16 @@ const InputLayout: FC<ReactCookieProps> = ({ cookies }) => {
   const inputClasses =
     "text-gray-800 outline-none border border-yellow-700 rounded-sm p-1 w-full";
 
-  const createTodoHandler = () => {
+  const createTodoHandler = async () => {
     const name: string = todoNameRef.current?.value || "";
     const description: string = todoDescriptionRef.current?.value || "";
 
     if (!name || !description) return;
     const formTodo: FormTodo = { name, description };
-    dispatch(addNewTodo(formTodo, token, navigate));
+
+    setLoading(true);
+    await dispatch(addNewTodo(formTodo, token, navigate));
+    setLoading(false);
 
     (todoNameRef.current as HTMLInputElement).value = "";
     (todoDescriptionRef.current as HTMLTextAreaElement).value = "";
@@ -49,11 +54,13 @@ const InputLayout: FC<ReactCookieProps> = ({ cookies }) => {
             </div>
           </div>
           <button
-            className="w-full p-2 px-5 rounded-md bg-yellow-600 font-bold"
+            className="w-full p-2 px-5 rounded-md bg-yellow-600 font-bold flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
             type="button"
+            disabled={loading}
             onClick={() => createTodoHandler()}
           >
-            Add Todo
+            {loading && <Spinner />}
+            {loading ? "Adding..." : "Add Todo"}
           </button>
         </div>
       </form>
@@ -64,3 +71,4 @@ const InputLayout: FC<ReactCookieProps> = ({ cookies }) => {
 const InputLayoutWithCookies = withCookies(InputLayout);
 
 export default InputLayoutWithCookies;
+

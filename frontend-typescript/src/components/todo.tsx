@@ -18,7 +18,6 @@ const Todo: FC<TodoComponent> = ({
   const todoOptionsRef = useRef<HTMLDivElement>(null);
 
   useOutsideElementClick(todoOptionsRef, () => {
-    if (!openDropdown) return;
     setOpenDropdown(false);
   });
 
@@ -52,9 +51,7 @@ const Todo: FC<TodoComponent> = ({
           {completed && (
             <button
               className={`${buttonClasses} text-gray-500 border-gray-500`}
-              onClick={() =>
-                todoUpdateHandler({ completed: false }, data._id)
-              }
+              onClick={() => todoUpdateHandler({ completed: false }, data._id)}
             >
               Undo
             </button>
@@ -62,21 +59,20 @@ const Todo: FC<TodoComponent> = ({
           {!completed && (
             <button
               className={`${buttonClasses} text-green-500 border-green-500`}
-              onClick={() =>
-                todoUpdateHandler({ completed: true }, data._id)
-              }
+              onClick={() => todoUpdateHandler({ completed: true }, data._id)}
             >
               Completed
             </button>
           )}
           <div
+            ref={todoOptionsRef}
             onClick={() => setOpenDropdown(!openDropdown)}
             className="relative cursor-pointer"
           >
             <BiDotsVertical className="h-8 w-8" color="#ffffff" />
 
             {openDropdown && (
-              <div ref={todoOptionsRef} className="absolute right-0 top-full bg-gray-800 text-gray-50 rounded-md flex flex-col p-2 gap-2 z-10 min-w-[100px]">
+              <div className="absolute right-0 top-full bg-gray-800 text-gray-50 rounded-md flex flex-col p-2 gap-2 z-10 min-w-[100px]">
                 <button
                   onClick={handleEditClick}
                   className={`${buttonClasses} text-blue-500 border-blue-500`}
@@ -124,4 +120,3 @@ const MemoizedTodo = memo(Todo, (prev, curr) => {
 });
 
 export default MemoizedTodo;
-
