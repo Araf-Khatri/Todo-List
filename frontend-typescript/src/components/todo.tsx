@@ -69,6 +69,7 @@ const Todo: FC<TodoComponent> = ({
             onClick={() => setOpenDropdown(!openDropdown)}
             className="relative cursor-pointer"
           >
+            {/* @ts-expect-error - BiDotsVertical type issue with react-icons */}
             <BiDotsVertical className="h-8 w-8" color="#ffffff" />
 
             {openDropdown && (
